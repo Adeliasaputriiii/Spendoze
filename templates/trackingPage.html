@@ -1,0 +1,42 @@
+{% extends 'layout base/base.html' %}
+
+{% block title %} 
+	Spendoze - Tracking Result
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid align-items-center justify-content-center text-center border border-white rounded-3 py-4 px-5" style="max-width: 1000px;">
+	<table class="table table-bordered table-hover" style="background-color: rgba(217, 217, 217, 0.3); border-collapse: collapse;">
+		<thead>
+			<tr>
+				<th class="table-primary">Company</th>
+				<th class="table-primary">Address</th>
+				<th class="table-primary">Total</th>
+				<th class="table-primary">Date</th>
+				<th class="table-primary">Receipt</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in results %}
+			<tr>
+				<td>{{ row[1] }}</td>  {# company #}
+				<td>{{ row[2] }}</td>  {# address #}
+				<td>{{ row[3] }}</td>  {# total #}
+				<td>{{ row[4] }}</td>  {# date #}
+				<td>
+					{% if row[5] %}
+						<a href="{{ url_for('static', filename=row[5]|string|replace('static/', '') ) }}" target="_blank">View</a>
+					{% else %}
+						No Image
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td colspan="5" class="text-center">No extraction result found.</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

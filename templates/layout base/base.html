@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        
+        {% endblock %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <style>
+      body {
+          
+          font-family: 'Poppins', sans-serif;
+      }
+  </style>
+</head>
+<body class="" style="background-color: #190252;">
+    <div class="d-flex flex-column align-items-center min-vh-100" >
+        <div class="container mt-3 mb-5 ">
+            <nav class="navbar navbar-expand-lg rounded-3" style="background-color: rgba(217, 217, 217, 0.3);">
+                <div class="container-fluid px-2">
+                    <a href="{{ url_for('home.home')}}"><img src="{{ url_for('static', filename='images/Logo.png') }}"  alt="" style="height: 40px; width: auto;" srcset=""></a>
+                    <div class="collapse navbar-collapse position-absolute end-0 mx-4" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-lg-0"> 
+                            {% set is_logged_in = 'user_id' in session %}
+
+                            {% for name, route in [('Home', 'home.home'), ('Upload', 'upload.upload'), ('Extraction Result', 'result.result')] %}
+                            <li class="nav-item px-3">
+                                <a class="nav-link {% if not is_logged_in %}disabled{% endif %} text-white fw-medium"
+                                style="font-size: 14px;"
+                                href="{{ url_for(route) }}">{{ name }}</a>
+                            </li>
+                            {% endfor %}
+                            {% if is_logged_in %}
+                                <li class="nav-item px-3">
+                                    <a class="nav-link text-white fw-medium" style="font-size: 14px;" href="{{ url_for('login.logout') }}">Logout</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="container-fluid d-flex justify-content-center align-items-center text-center py-5
+        ">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
